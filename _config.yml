@@ -313,6 +313,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-redirect-from
   - jemoji
+  - jekyll-polyglot
 
 # Mimic GitHub Pages with --safe
 whitelist:
@@ -322,6 +323,13 @@ whitelist:
   - jekyll-sitemap
   - jekyll-redirect-from
   - jemoji
+  - jekyll-polyglot
+
+# jekyll-polyglot: multi-language support (ja/en)
+# https://github.com/untra/polyglot
+languages: ["ja", "en"]
+default_lang: "ja"
+exclude_from_localizations: ["images", "files", "assets"]
 
 
 # Archives
