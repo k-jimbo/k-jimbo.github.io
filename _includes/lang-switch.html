@@ -1,0 +1,54 @@
+{% comment %}
+  Renders a "日本語 ⇔ English" language-switch menu item.
+
+  Uses jekyll-polyglot's `page.ref` to find the translated counterpart of the
+  page currently being viewed (searching site.pages plus every registered
+  collection: posts, publications, talks, teaching, portfolio, ...). If no
+  translated counterpart exists (e.g. not-yet-translated content, or ref not
+  set), it falls back to the other language's homepage.
+{% endcomment %}
+{% include base_path %}
+{% assign current_lang = page.lang | default: site.default_lang %}
+{% if current_lang == "ja" %}
+  {% assign other_lang = "en" %}
+  {% assign other_lang_label = "English" %}
+{% else %}
+  {% assign other_lang = "ja" %}
+  {% assign other_lang_label = "日本語" %}
+{% endif %}
+
+{% assign translated_url = nil %}
+
+{% if page.ref %}
+  {% for p in site.pages %}
+    {% if p.ref == page.ref and p.lang == other_lang %}
+      {% assign translated_url = p.url %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if page.ref and translated_url == nil %}
+  {% for collection in site.collections %}
+    {% if translated_url %}
+      {% break %}
+    {% endif %}
+    {% for doc in collection.docs %}
+      {% if doc.ref == page.ref and doc.lang == other_lang %}
+        {% assign translated_url = doc.url %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+{% endif %}
+
+{% unless translated_url %}
+  {% comment %} No translated counterpart found: fall back to the other language's homepage. {% endcomment %}
+  {% assign translated_url = "/" | prepend: other_lang | prepend: "/" %}
+{% endunless %}
+
+<li id="lang-switch" class="masthead__menu-item persist">
+  <a href="{{ base_path }}{{ translated_url }}" class="lang-switch-link" hreflang="{{ other_lang }}" lang="{{ other_lang }}" rel="alternate" title="{{ other_lang_label }}">
+    {{ other_lang_label }}
+  </a>
+</li>

@@ -329,6 +329,9 @@ whitelist:
 # https://github.com/untra/polyglot
 languages: ["ja", "en"]
 default_lang: "ja"
+# Also prefix the default language (ja) with /ja/ instead of leaving it at
+# the site root, so /ja/ and /en/ exist symmetrically for the language switcher.
+parallel_localization: true
 exclude_from_localizations: ["images", "files", "assets"]
 
 
