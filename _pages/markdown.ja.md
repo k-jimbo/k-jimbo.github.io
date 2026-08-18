@@ -1,10 +1,12 @@
 ---
 permalink: /markdown/
-title: "Markdown"
+title: "ガイド"
 author_profile: true
 redirect_from: 
   - /md/
   - /markdown.html
+lang: ja
+ref: guide
 ---
 
 {% include toc %}

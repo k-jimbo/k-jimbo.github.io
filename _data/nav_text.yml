@@ -1,0 +1,30 @@
+# Language dictionary for menu/heading labels that must switch with page.lang
+# (jekyll-polyglot). Looked up in templates as:
+#   site.data.nav_text[page.lang].nav.<key>
+#
+# NOTE: kept separate from _data/ui-text.yml, which is the minimal-mistakes
+# theme's own built-in locale strings keyed by site.locale (e.g. "en-US"),
+# not by jekyll-polyglot's page.lang. Overloading that file would conflict
+# with the theme's own lookups, so custom site labels live here instead.
+
+ja:
+  nav:
+    publications: "業績"
+    talks: "講演"
+    teaching: "教育"
+    portfolio: "ポートフォリオ"
+    blog_posts: "ブログ"
+    cv: "CV"
+    guide: "ガイド"
+  site_title: "TOP"
+
+en:
+  nav:
+    publications: "Publications"
+    talks: "Talks"
+    teaching: "Teaching"
+    portfolio: "Portfolio"
+    blog_posts: "Blog Posts"
+    cv: "CV"
+    guide: "Guide"
+  site_title: "TOP"
