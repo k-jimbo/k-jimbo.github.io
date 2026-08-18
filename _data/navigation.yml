@@ -7,37 +7,27 @@
 # NOTE that only one of the CV options should be selected, the first is for the
 #      Markdown formatted page while the second is generated using JSON.
 
-# NOTE: `key` maps each entry to a label in _data/nav_text.yml so the menu
-#       text can be localized based on page.lang (jekyll-polyglot). `title`
-#       is kept as the fallback label if a `key` lookup ever comes up empty.
 main:
   - title: "Publications"
     url: /publications/
-    key: publications
 
   - title: "Talks"
-    url: /talks/
-    key: talks
+    url: /talks/    
 
   - title: "Teaching"
-    url: /teaching/
-    key: teaching
-
+    url: /teaching/    
+    
   - title: "Portfolio"
     url: /portfolio/
-    key: portfolio
-
+        
   - title: "Blog Posts"
     url: /year-archive/
-    key: blog_posts
-
+    
   - title: "CV"
     url: /cv/
-    key: cv
-
+    
   # - title: "CV"
   #   url: /cv-json/
-
+    
   - title: "Guide"
     url: /markdown/
-    key: guide

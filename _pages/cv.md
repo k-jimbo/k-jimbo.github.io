@@ -3,19 +3,19 @@ layout: archive
 title: "CV"
 permalink: /cv/
 author_profile: true
-lang: ja
-ref: cv
+redirect_from:
+  - /resume
 ---
 
 {% include base_path %}
 
-学歴
+Education
 ======
 * Ph.D in Version Control Theory, GitHub University, 2018 (expected)
 * M.S. in Jekyll, GitHub University, 2014
 * B.S. in GitHub, GitHub University, 2012
 
-職歴
+Work experience
 ======
 * Spring 2024: Academic Pages Collaborator
   * GitHub University
@@ -32,7 +32,7 @@ ref: cv
   * Duties included: Tagging issues
   * Supervisor: Professor Git
   
-スキル
+Skills
 ======
 * Skill 1
 * Skill 2
@@ -41,24 +41,24 @@ ref: cv
   * Sub-skill 2.3
 * Skill 3
 
-業績
+Publications
 ======
   <ul>{% for post in site.publications reversed %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
   
-講演
+Talks
 ======
   <ul>{% for post in site.talks reversed %}
     {% include archive-single-talk-cv.html  %}
   {% endfor %}</ul>
   
-教育
+Teaching
 ======
   <ul>{% for post in site.teaching reversed %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
   
-サービス・リーダーシップ
+Service and leadership
 ======
 * Currently signed in to 43 different slack teams
