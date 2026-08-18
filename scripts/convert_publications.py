@@ -65,7 +65,26 @@ class Publication:
         self._ref_override: str | None = None
 
     def get(self, key: str) -> str:
-        return self.row.get(key, "") or ""
+        value = self.row.get(key, "") or ""
+        # researchmapのエクスポートは空欄が空文字列ではなく、文字通りの
+        # "null" という文字列で入っていることがあるので、空扱いにする。
+        if value.strip().lower() == "null":
+            return ""
+        return value
+
+    @staticmethod
+    def _clean_authors(raw: str) -> str:
+        """"[Koki Jimbo,Shinya Morita]" や "[神保康紀\\,舘野寿丈]" のような
+        researchmap特有の角カッコ区切り表記を "Koki Jimbo, Shinya Morita" の
+        ような読みやすい表記に変換する。"""
+        raw = raw.strip()
+        if not raw:
+            return ""
+        if raw.startswith("[") and raw.endswith("]"):
+            raw = raw[1:-1]
+        parts = re.split(r"\\,|,", raw)
+        parts = [p.strip().strip('"').strip() for p in parts]
+        return ", ".join(p for p in parts if p)
 
     # --- 各フィールド ---------------------------------------------------------
 
@@ -79,11 +98,11 @@ class Publication:
 
     @property
     def authors_ja(self) -> str:
-        return self.get("著者(日本語)")
+        return self._clean_authors(self.get("著者(日本語)"))
 
     @property
     def authors_en(self) -> str:
-        return self.get("著者(英語)")
+        return self._clean_authors(self.get("著者(英語)"))
 
     @property
     def venue_ja(self) -> str:
@@ -113,10 +132,31 @@ class Publication:
     def disclosed(self) -> bool:
         return self.get("公開の有無").strip().lower() == DISCLOSED_VALUE
 
+    _MONTH_ABBR = {
+        "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
+        "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12,
+    }
+
     @property
     def date_str(self) -> str:
-        """出版年月 (例: '2024/07', '2024-07', '2024年7月', '2024') -> 'YYYY-MM-DD'"""
-        raw = self.get("出版年月")
+        """出版年月を 'YYYY-MM-DD' に正規化する。以下の形式に対応:
+        '2024/07', '2024-07', '2024年7月', '2024', '2026/4/21'
+        'Sep-24' (Excelが 'YYYY-MM' を月名に自動変換してしまったもの)
+        """
+        raw = self.get("出版年月").strip()
+        if not raw:
+            return "1900-01-01"
+
+        # "Sep-24" / "Mar-2019" のような "月名-年" 形式 (Excelの日付誤変換対策)
+        m = re.match(r"^([A-Za-z]{3,})[-/](\d{2,4})$", raw)
+        if m:
+            month = self._MONTH_ABBR.get(m.group(1)[:3].lower())
+            if month:
+                year = int(m.group(2))
+                if year < 100:
+                    year += 2000
+                return f"{year:04d}-{month:02d}-01"
+
         m = re.search(r"(\d{4})\D*(\d{1,2})?\D*(\d{1,2})?", raw)
         if not m:
             return "1900-01-01"
@@ -131,6 +171,9 @@ class Publication:
     def pages(self) -> str:
         start, end = self.get("開始ページ"), self.get("終了ページ")
         if start and end:
+            if start == end:
+                # 記事番号(例: "JAMDSM0005")がstart/end両方に入っているケース
+                return start
             return f"{start}-{end}"
         return start or end or ""
 
