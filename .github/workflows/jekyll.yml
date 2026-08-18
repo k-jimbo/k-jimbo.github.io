@@ -45,6 +45,11 @@ jobs:
           path: "_site"
 
   deploy:
+    # Only publish to the live site on an actual push to master. A manual
+    # workflow_dispatch run (e.g. to test-build a feature branch before
+    # merging) still runs the build job above, but is intentionally NOT
+    # deployed to production unless it was dispatched against master.
+    if: github.ref == 'refs/heads/master'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
