@@ -291,7 +291,7 @@ class Talk:
             lines.append("")
 
         if self.url:
-            lines.append(f"[講演資料・詳細 / Presentation link]({self.url})")
+            lines.append(f"[講演会情報 / Conference Information]({self.url})")
             lines.append("")
         return "\n".join(lines)
 
