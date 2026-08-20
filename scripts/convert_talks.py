@@ -35,7 +35,7 @@ CSV 仕様:
 
 使い方:
     python scripts/convert_talks.py
-    python scripts/convert_talks.py --csv data/rm_presentations20260818.csv --output-dir _talks
+    python scripts/convert_talks.py --csv data/rm_presentations20260820.csv --output-dir _talks
     python scripts/convert_talks.py --dry-run
 """
 
@@ -49,7 +49,7 @@ import unicodedata
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_CSV_PATH = REPO_ROOT / "data" / "rm_presentations20260818.csv"
+DEFAULT_CSV_PATH = REPO_ROOT / "data" / "rm_presentations20260820.csv"
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "_talks"
 
 GENERATED_MARKER = "generated_by: scripts/convert_talks.py"
