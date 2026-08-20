@@ -189,7 +189,8 @@ class Talk:
     # --- 日英併記用の合成フィールド -------------------------------------------
 
     @staticmethod
-    def _bilingual(ja: str, en: str, sep: str = " / ") -> str:
+    def _bilingual(ja: str, en: str, sep: str = "<br />") -> str:
+        """日英両方あれば「日本語<br />English」(改行区切り)、片方だけならそのまま返す。"""
         ja, en = ja.strip(), en.strip()
         if ja and en and ja != en:
             return f"{ja}{sep}{en}"
