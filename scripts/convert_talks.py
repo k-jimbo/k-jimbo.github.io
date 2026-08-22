@@ -285,7 +285,7 @@ class Talk:
 
         extra = []
         if self.proceedings_page:
-            extra.append(f"講演論文集ページ番号 / Proceedings page: {self.proceedings_page}")
+            extra.append(f"講演論文集 / Proceedings: {self.proceedings_page}")
         if self.presentation_number:
             extra.append(f"発表番号 / Presentation number: {self.presentation_number}")
         if extra:
