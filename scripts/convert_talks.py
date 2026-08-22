@@ -35,7 +35,7 @@ CSV 仕様:
 
 使い方:
     python scripts/convert_talks.py
-    python scripts/convert_talks.py --csv data/rm_presentations20260820.csv --output-dir _talks
+    python scripts/convert_talks.py --csv data/rm_presentations20260822.csv --output-dir _talks
     python scripts/convert_talks.py --dry-run
 """
 
@@ -49,7 +49,7 @@ import unicodedata
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_CSV_PATH = REPO_ROOT / "data" / "rm_presentations20260820.csv"
+DEFAULT_CSV_PATH = REPO_ROOT / "data" / "rm_presentations20260822.csv"
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "_talks"
 
 GENERATED_MARKER = "generated_by: scripts/convert_talks.py"
@@ -143,10 +143,12 @@ class Talk:
 
     @property
     def type_label(self) -> str:
-        ja, en = TYPE_LABELS.get(self.conference_type, (self.conference_type, self.conference_type))
+        # 未知の会議種別 (例: "others") は日本語訳が無いので、英語側だけに
+        # そのまま流す（日英が混ざった "招待others" のような表記を避ける）。
+        ja, en = TYPE_LABELS.get(self.conference_type, ("", self.conference_type))
         if self.invited and "招待" not in ja:
-            ja = f"招待{ja}" if ja else "招待講演"
-            en = f"Invited {en}" if en else "Invited Talk"
+            ja = f"招待{ja}" if ja else ""
+            en = f"Invited {en}" if en else "Invited"
         return self._bilingual(ja, en) if ja or en else ""
 
     @property
